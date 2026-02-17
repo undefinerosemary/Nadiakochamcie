@@ -51,16 +51,23 @@ document.getElementById("change").addEventListener("click", () => {
 });
 
 document.getElementById("accept").addEventListener("click", () => {
-    // wysłanie danych – prosty sposób przez mailto
-    const subject = encodeURIComponent("Wybrane opcje weekendu");
-    const body = encodeURIComponent("Klimat: " + klimat + "\nTermin: " + termin);
-    window.location.href = `mailto:twojemail@example.com?subject=${subject}&body=${body}`;
+    const klimat = localStorage.getItem("wybranyKlimat");
+    const termin = localStorage.getItem("wybranyTermin");
 
-    // przejście do strony dziękuję
-    setTimeout(() => {
-        window.location.href = "dziekuje.html";
-    }, 1000); // 1 sekunda, żeby mail wyszedł
+    // link do formularza Google Form + entry IDs
+    const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfuIFb_BJsQioCk8fQMZmNR2TvYTO54DYoNnaasw1Gi8Fu58w/viewform?usp=preview";
+    const data = new FormData();
+    data.append("entry.1881732815", klimat);  // entry ID dla klimatu
+    data.append("entry.543435875", termin);  // entry ID dla terminu
+
+    fetch(formURL, { method: "POST", body: data })
+      .then(() => window.location.href = "dziekuje.html")
+      .catch(err => {
+        console.error("Błąd wysyłki do Google Form:", err);
+        alert("Nie udało się wysłać danych");
+      });
 });
+
 </script>
 
 </body>
