@@ -13,15 +13,29 @@ body {
 .container {
     background: rgba(0,0,0,0.3); padding:40px; border-radius:20px; backdrop-filter:blur(10px); width:90%; max-width:500px;
 }
-h1 { margin-bottom: 20px; }
-p { font-size:18px; margin:10px 0; }
+button {
+    margin:10px;
+    padding:12px 25px;
+    font-size:16px;
+    border-radius:25px;
+    border:none;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover { transform: scale(1.05); }
+button#change { background:#f39c12; color:white; }
+button#accept { background:#2ecc71; color:white; }
 </style>
 </head>
 <body>
+
 <div class="container">
     <h1>Podsumowanie naszej przygody ❤️</h1>
     <p id="klimat"></p>
     <p id="termin"></p>
+
+    <button id="change">Zmień wybory</button>
+    <button id="accept">Akceptuj</button>
 </div>
 
 <script>
@@ -30,6 +44,24 @@ const termin = localStorage.getItem("wybranyTermin");
 
 document.getElementById("klimat").textContent = "Wybrany klimat: " + (klimat || "nie wybrano");
 document.getElementById("termin").textContent = "Wybrany termin: " + (termin || "nie wybrano");
+
+document.getElementById("change").addEventListener("click", () => {
+    // resetuje tylko termin lub wszystko, w zależności co chcesz
+    window.location.href = "index.html"; // wracamy do wyboru klimatu
+});
+
+document.getElementById("accept").addEventListener("click", () => {
+    // wysłanie danych – prosty sposób przez mailto
+    const subject = encodeURIComponent("Wybrane opcje weekendu");
+    const body = encodeURIComponent("Klimat: " + klimat + "\nTermin: " + termin);
+    window.location.href = `mailto:twojemail@example.com?subject=${subject}&body=${body}`;
+
+    // przejście do strony dziękuję
+    setTimeout(() => {
+        window.location.href = "dziekuje.html";
+    }, 1000); // 1 sekunda, żeby mail wyszedł
+});
 </script>
+
 </body>
 </html>
