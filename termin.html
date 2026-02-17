@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wybierz termin ❤️</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+    text-align: center;
+}
 
+.container {
+    background: rgba(0,0,0,0.3);
+    padding: 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    width: 90%;
+    max-width: 500px;
+}
+
+input, button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    cursor: pointer;
+    background: #2ecc71;
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Wybierz termin naszego weekendu ❤️</h1>
+    <input type="date" id="termin">
+    <button onclick="zapiszTermin()">Zapisz termin</button>
+    <div id="result"></div>
+</div>
+
+<script>
+function zapiszTermin() {
+    const termin = document.getElementById("termin").value;
+    if(!termin) {
+        alert("Wybierz datę!");
+        return;
+    }
+    // zapisujemy w localStorage
+    localStorage.setItem("wybranyTermin", termin);
+    document.getElementById("result").innerHTML = 
+        "Super! Termin zapisany: " + termin + " 😌";
+}
+</script>
+
+</body>
+</html>
