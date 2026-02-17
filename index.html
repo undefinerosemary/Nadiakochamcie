@@ -76,8 +76,8 @@ button:hover {
 <script>
 function choose(option) {
     localStorage.setItem("wybranyKlimat", option);
-    document.getElementById("result").innerHTML =
-        "Zarezerwowane: " + option + "<br>Twój chłopak zajmie się resztą 😌";
+    // przejście na nową stronę
+    window.location.href = "termin.html";
 }
 </script>
 
