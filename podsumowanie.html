@@ -1,1 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Podsumowanie ❤️</title>
+<style>
+body { 
+    margin:0; font-family:'Segoe UI', sans-serif; 
+    background: linear-gradient(135deg,#ff758c,#ff7eb3); 
+    display:flex; justify-content:center; align-items:center; height:100vh; color:white; text-align:center;
+}
+.container {
+    background: rgba(0,0,0,0.3); padding:40px; border-radius:20px; backdrop-filter:blur(10px); width:90%; max-width:500px;
+}
+h1 { margin-bottom: 20px; }
+p { font-size:18px; margin:10px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Podsumowanie naszej przygody ❤️</h1>
+    <p id="klimat"></p>
+    <p id="termin"></p>
+</div>
 
+<script>
+const klimat = localStorage.getItem("wybranyKlimat");
+const termin = localStorage.getItem("wybranyTermin");
+
+document.getElementById("klimat").textContent = "Wybrany klimat: " + (klimat || "nie wybrano");
+document.getElementById("termin").textContent = "Wybrany termin: " + (termin || "nie wybrano");
+</script>
+</body>
+</html>
