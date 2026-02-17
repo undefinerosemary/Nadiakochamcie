@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wybierz naszą przygodę ❤️</title>
-
 <style>
 body {
     margin: 0;
@@ -31,54 +30,81 @@ h1 {
     margin-bottom: 10px;
 }
 
-button {
+button.option {
     display: block;
     width: 100%;
     margin: 10px 0;
     padding: 15px;
-    border: none;
+    border: 2px solid transparent;
     border-radius: 12px;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
 }
 
-button:hover {
+button.option:hover {
     transform: scale(1.05);
 }
 
-.option1 { background: #ff4e50; }
-.option2 { background: #1e90ff; }
-.option3 { background: #2ecc71; }
-.option4 { background: #f39c12; }
+button.option.selected {
+    border: 3px solid black;
+    background-color: rgba(255,255,255,0.2);
+}
 
-.result {
+button#dalej {
     margin-top: 20px;
-    font-size: 18px;
+    background-color: #2ecc71;
+    color: white;
     font-weight: bold;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+button#dalej.active {
+    opacity: 1;
+    cursor: pointer;
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
     <h1>Wybierz naszą przygodę ❤️</h1>
     <p>Kliknij klimat weekendu:</p>
 
-    <button class="option1" onclick="choose('Góry 🌲')">Góry 🌲</button>
-    <button class="option2" onclick="choose('Morze 🌊')">Morze 🌊</button>
-    <button class="option3" onclick="choose('Miasto 🏙')">Miasto 🏙</button>
+    <button class="option" data-value="Góry 🌲">Góry 🌲</button>
+    <button class="option" data-value="Morze 🌊">Morze 🌊</button>
+    <button class="option" data-value="Miasto 🏙">Miasto 🏙</button>
 
-    <div class="result" id="result"></div>
+    <button id="dalej">Dalej</button>
 </div>
 
 <script>
-function choose(option) {
-    localStorage.setItem("wybranyKlimat", option);
-    // przejście na nową stronę
-    window.location.href = "termin.html";
-}
+let selectedOption = null;
+
+const options = document.querySelectorAll('button.option');
+const dalej = document.getElementById('dalej');
+
+options.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // usuń zaznaczenie z innych przycisków
+        options.forEach(b => b.classList.remove('selected'));
+        // zaznacz kliknięty
+        btn.classList.add('selected');
+        // zapisz wybrany klimat
+        selectedOption = btn.dataset.value;
+        // aktywuj przycisk Dalej
+        dalej.classList.add('active');
+    });
+});
+
+dalej.addEventListener('click', () => {
+    if(!selectedOption) return; // bezpieczeństwo
+    // zapis do localStorage
+    localStorage.setItem('wybranyKlimat', selectedOption);
+    // przejście do kalendarza
+    window.location.href = 'termin.html';
+});
 </script>
 
 </body>
