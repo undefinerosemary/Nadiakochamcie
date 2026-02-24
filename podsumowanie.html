@@ -38,6 +38,7 @@ button#accept { background:#2ecc71; color:white; }
     <button id="accept">Akceptuj</button>
 </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const klimat = localStorage.getItem("wybranyKlimat");
 const termin = localStorage.getItem("wybranyTermin");
@@ -47,26 +48,34 @@ document.getElementById("termin").textContent = "Wybrany termin: " + (termin || 
 
 document.getElementById("change").addEventListener("click", () => {
     // resetuje tylko termin lub wszystko, w zależności co chcesz
-    window.location.href = "index.html"; // wracamy do wyboru klimatu
+    window.location.href = "index.html"; 
 });
+const supabaseUrl = "https://oubhyvppwjdahpuhmzod.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91Ymh5dnBwd2pkYWhwdWhtem9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2Njg0NDEsImV4cCI6MjA4NzI0NDQ0MX0.Rwc0T0BLLQ616iPEtrQsrwfMUwRurfEGx2ZGCFk5H60";
 
-document.getElementById("accept").addEventListener("click", () => {
+const { createClient } = supabase;
+const db = createClient(supabaseUrl, supabaseKey);
+
+document.getElementById("accept").addEventListener("click", async () => {
+
     const klimat = localStorage.getItem("wybranyKlimat");
     const termin = localStorage.getItem("wybranyTermin");
 
-    // link do formularza Google Form + entry IDs
-    const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfuIFb_BJsQioCk8fQMZmNR2TvYTO54DYoNnaasw1Gi8Fu58w/viewform";
-    const data = new FormData();
-    data.append("entry.1412841006", klimat);  // entry ID dla klimatu
-    data.append("entry.1891706636", termin);  // entry ID dla terminu
+    const { error } = await db
+        .from("wybory")
+        .insert([
+            { klimat: klimat, termin: termin }
+        ]);
 
-    fetch(formURL, { method: "POST", body: data })
-      .then(() => window.location.href = "dziekuje.html")
-      .catch(err => {
-        console.error("Błąd wysyłki do Google Form:", err);
-        alert("Nie udało się wysłać danych");
-      });
+    if (error) {
+        console.error("Błąd Supabase:", error);
+        alert("Błąd zapisu danych");
+    } else {
+        window.location.href = "dziekuje.html";
+    }
 });
+
+    
 
 </script>
 
